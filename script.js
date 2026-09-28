@@ -80,16 +80,16 @@ switch (studyDay){
     studyPlan = 'Other Class day.';
     break;
   case 'Wednesday':
-    studyPlan = 'Study for ' + dailyStudyMinutes + ' minutes today.';
+    studyPlan = 'Study for ' + dailyStudyMinutes.toFixed(2) + ' minutes today.';
     break;
   case 'Thursday':
-    studyPlan = 'Lab day! Work for ' + dailyStudyMinutes + ' minutes today.';
+    studyPlan = 'Lab day! Work for ' + dailyStudyMinutes.toFixed(2) + ' minutes today.';
     break;
   case 'Friday':
     studyPlan = 'Coaching day.';
     break;
   case 'Saturday':
-    studyPlan = 'Applied programming activity day. Work for ' + dailyStudyMinutes + ' minutes today.';
+    studyPlan = 'Applied programming activity day. Work for ' + dailyStudyMinutes.toFixed(2) + ' minutes today.';
     break;
   case 'Sunday':
     studyPlan = 'Game day.';
