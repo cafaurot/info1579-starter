@@ -17,14 +17,14 @@ const display = (label, value) =>
 // ADD YOUR CODE BELOW
 
 const courseModules = ['Module 1','Module 2','Module 3','Module 4','Module 5','Module 6','Module 7','Module 8','Module 9','Module 10',];
-let completedModules = ['Module 1','Module 2'];
+const completedModules = ['Module 1','Module 2','Module 3'];
 const name = 'Chance Faurot';
 const totalModules = 10;
 const isEnrolled = true;
 
 const welcomeMessage = `Welcome, ${name}!`;
 
-const totalStudyHours = totalModules * 6;
+const totalStudyHours = calculateStudyHours(courseModules.length);
 
 const dailyStudyHours =  6 / 7;
 const dailyStudyMinutes = dailyStudyHours * 60;
@@ -33,81 +33,107 @@ const dailyStudyMinutes = dailyStudyHours * 60;
 const adjustedDailyHours = 6 / 6;
 const adjustedDailyMinutes = adjustedDailyHours * 60;
 
-completedModules = prompt('Enter the number of completed modules (1-10): ');
-const percentComplete = (completedModules  / totalModules) * 100;
+function calculatePercentComplete(completed,total){
+  return (completed  / total) * 100;
+}
+
+function calculateStudyHours(modules,hoursPerModule = 6){
+  return modules * `${hoursPerModule}`;
+}
+
+function getCourseProgress(percentRemaining){
+  if(percentRemaining === 0){
+  return 'Current Progress: Finished!';
+} else if(percentRemaining <= 24.99) {
+  return 'Current Progress: Almost Finished';
+} else if(percentRemaining >= 25 && percentRemaining <= 74.99) {
+ return 'Current Progress: Making Progress';
+} else if(percentRemaining >= 75) {
+  return 'Current Progress: Just Getting Started';
+} else {
+  return 'Invalid entry';
+}
+}
+
+function getCourseGrade(percentComplete){
+  if(percentComplete >= 90){
+  return 'A';
+} else if(percentComplete >= 80) {
+  return 'B';
+} else if(percentComplete >= 70) {
+  return 'C';
+} else if(percentComplete >= 60) {
+  return 'D';
+} else if(percentComplete < 60) {
+  return 'F';
+} else {
+  return 'Invalid entry';
+}
+}
+
+const displayModules = (modules) => {
+  for (let i = 0; i < modules.length; i++) {
+    display(`Module ${i + 1}`, modules[i]);
+  }
+}
+
+const displayCompletedModules = (...modules) => {
+  return modules.join(", ");
+}
+
+
+
+const completedModulesList = displayCompletedModules(...completedModules);
+
+const percentComplete = calculatePercentComplete(completedModules.length,courseModules.length);
 const percentRemaining = 100 - percentComplete;
 
-let courseProgress;
-if(percentRemaining === 0){
-  courseProgress = 'Current Progress: Finished!';
-} else if(percentRemaining <= 24.99) {
-  courseProgress = 'Current Progress: Almost Finished';
-} else if(percentRemaining >= 25 && percentRemaining <= 74.99) {
-  courseProgress = 'Current Progress: Making Progress';
-} else if(percentRemaining >= 75) {
-  courseProgress = 'Current Progress: Just Getting Started';
-} else {
-  courseProgress = 'Invalid entry';
-}
-
-let courseGrade;
-if(percentComplete >= 90){
-  courseGrade = 'A';
-} else if(percentComplete >= 80) {
-  courseGrade = 'B';
-} else if(percentComplete >= 70) {
-  courseGrade = 'C';
-} else if(percentComplete >= 60) {
-  courseGrade = 'D';
-} else if(percentComplete < 60) {
-  courseGrade = 'F';
-} else {
-  courseGrade = 'Invalid entry';
-}
-
-let studyPlan;
 let studyDay;
 if (percentComplete === 100) {
   studyDay = 'Complete';
 } else {
   studyDay = prompt('Input a day of the week (Monday): ');
 }
-switch (studyDay){
-  case 'Monday':
-    studyPlan = 'Rest day.';
-    break;
-  case 'Tuesday':
-    studyPlan = 'Other Class day.';
-    break;
-  case 'Wednesday':
-    studyPlan = 'Study for ' + dailyStudyMinutes.toFixed(2) + ' minutes today.';
-    break;
-  case 'Thursday':
-    studyPlan = 'Lab day! Work for ' + dailyStudyMinutes.toFixed(2) + ' minutes today.';
-    break;
-  case 'Friday':
-    studyPlan = 'Coaching day.';
-    break;
-  case 'Saturday':
-    studyPlan = 'Applied programming activity day. Work for ' + dailyStudyMinutes.toFixed(2) + ' minutes today.';
-    break;
-  case 'Sunday':
-    studyPlan = 'Game day.';
-    break;
-  case 'Complete':
-    studyPlan = 'Course Completed!';
-    break;
-  default:
-    studyPlan = 'Invalid Day';
-    break;
+const getStudyPlan = (studyDay) => {
+  let studyPlan;
+  switch (studyDay){
+    case 'Monday':
+      studyPlan = 'Rest day.';
+      break;
+    case 'Tuesday':
+      studyPlan = 'Other Class day.';
+      break;
+    case 'Wednesday':
+      studyPlan = 'Study for ' + dailyStudyMinutes.toFixed(2) + ' minutes today.';
+      break;
+    case 'Thursday':
+      studyPlan = 'Lab day! Work for ' + dailyStudyMinutes.toFixed(2) + ' minutes today.';
+      break;
+    case 'Friday':
+      studyPlan = 'Coaching day.';
+      break;
+    case 'Saturday':
+      studyPlan = 'Applied programming activity day. Work for ' + dailyStudyMinutes.toFixed(2) + ' minutes today.';
+      break;
+    case 'Sunday':
+      studyPlan = 'Game day.';
+      break;
+    case 'Complete':
+      studyPlan = 'Course Completed!';
+      break;
+    default:
+      studyPlan = 'Invalid Day';
+      break;
+  }
+ return studyPlan;
 }
-
 // DISPLAY RESULTS
 
 display("My Name", name);
 display("Greeting Message", welcomeMessage);
 display("Enrolled",isEnrolled);
-display("Total Modules",totalModules);
+display("Total Modules",displayModules(courseModules));
+display("Completed Modules",completedModulesList);
 display("Daily Study Hours (7 days)",dailyStudyHours.toFixed(2));
 display("Daily Study Minutes (7 days)",dailyStudyMinutes.toFixed(2));
 display("Daily Study Hours (with rest day)",adjustedDailyHours.toFixed(2));
@@ -116,6 +142,6 @@ display("Daily Study Minutes (with rest day)",adjustedDailyMinutes.toFixed(2));
 // TODO: Display your results with a % sign
 display("Percent Complete",percentComplete.toFixed(2)+'%');
 display("Percent Remaining",percentRemaining.toFixed(2)+'%');
-display("Course Progress", courseProgress);
-display('Course Grade', courseGrade);
-display("Study Plan",studyPlan);
+display("Course Progress",getCourseProgress(percentRemaining));
+display('Course Grade', getCourseGrade(percentComplete));
+display("Study Plan",getStudyPlan(studyDay));
