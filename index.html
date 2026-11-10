@@ -15,9 +15,44 @@
     </div>
 
     <div class="innerbody">
-      <h1>Welcome to JavaScript!</h1>
 
-      <div class="module-output" id="output"></div>
+        <h1>Welcome to JavaScript!</h1>
+
+        <!-- <div class="module-output" id="output"></div> -->
+
+        <label> Student Name: <input id="studentName"> </label>
+
+        <label> Completed Modules: <input id="completedModules" type="number" min="0" max="10"> </label>
+
+        <label>
+
+            Study Day:
+
+            <select id="studyDay">
+
+                <option>Monday</option>
+
+                <option>Tuesday</option>
+
+                <option>Wednesday</option>
+
+                <option>Thursday</option>
+
+                <option>Friday</option>
+
+                <option>Saturday</option>
+
+                <option>Sunday</option>
+
+            </select>
+
+        </label>
+
+        <button id="generateButton"> Generate </button>
+
+        <button id="resetButton"> Reset </button>
+
+        <div id="output"></div>
 
     </div>
 
