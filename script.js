@@ -88,30 +88,69 @@ const displayRemainingModules = (completedModules) => {
   remainingListContainer.replaceChildren(displayModules(remainingModules));
 };
 
+const validateInputs = (studentName, completedModules, studyDay) => {
+    const errors = [];
+    if (studentName.trim() === "") {
+      errors.push("<li>Please enter a name.</li>");
+    }
+
+    if (completedModules < 0 || completedModules > 10) {
+      errors.push("<li>Completed modules must be between 0 and 10.</li>");
+    }
+
+    if (studyDay === ""){
+      errors.push("<li>Please select a study day.</li>");
+    }
+
+    if (errors.length > 0) {
+        throw new Error(errors.join(""));
+    }
+};
+
 const generateDashboard = () => {
-  const studentName = studentNameInput.value;
-  const completedModules = Number(completedModulesInput.value);
-  const studyDay = studyDayInput.value;
+  const output = document.getElementById("output");
+  try {
+        const studentName = studentNameInput.value;
+        console.log("Student Name:", studentName);
+        const completedModules = Number(completedModulesInput.value);
+        console.log("Completed Modules:", completedModules);
+        const studyDay = studyDayInput.value;
+        console.log("Study Day:", studyDay);
+        if (!Number.isInteger(completedModules) || completedModules < 0 || completedModules > courseModules.length) {
+          output.textContent = `Enter a completed-module count from 0 to ${courseModules.length}.`;
+          return;
+        }
 
-  if (!Number.isInteger(completedModules) || completedModules < 0 || completedModules > courseModules.length) {
-    output.textContent = `Enter a completed-module count from 0 to ${courseModules.length}.`;
-    return;
-  }
+    validateInputs(studentName, completedModules, studyDay);
 
-  const totalStudyHours = calculateStudyHours(courseModules.length);
-  const percentComplete = calculatePercentComplete(completedModules,courseModules.length);
-  const percentRemaining = 100 - percentComplete;
-  const dailyStudyHours =  6 / 7;
-  const dailyStudyMinutes = dailyStudyHours * 60;
+    const totalStudyHours = calculateStudyHours(courseModules.length);
+    const percentComplete = calculatePercentComplete(completedModules,courseModules.length);
+    console.log("Percent Complete:", percentComplete);
+    const percentRemaining = 100 - percentComplete;
+    const dailyStudyHours =  6 / 7;
+    const dailyStudyMinutes = dailyStudyHours * 60;
 
-  const grade = getCourseGrade(percentComplete);
-  const progress = getCourseProgress(percentRemaining);
-  const studyPlan = getStudyPlan(studyDay, dailyStudyMinutes);
+    const grade = getCourseGrade(percentComplete);
+    console.log("Grade:", grade);
+    const progress = getCourseProgress(percentRemaining);
+    console.log("Progress Status:", progress);
+    const studyPlan = getStudyPlan(studyDay, dailyStudyMinutes);
 
-  displayDashboard(studentName, courseModules.length, completedModules, totalStudyHours, percentComplete, percentRemaining, grade, progress, studyDay, studyPlan);
+    displayDashboard(studentName, courseModules.length, completedModules, totalStudyHours, percentComplete, percentRemaining, grade, progress, studyDay, studyPlan);
 
-  displayRemainingModules(completedModules);
-  applyDashboardColor(percentComplete);
+    displayRemainingModules(completedModules);
+    applyDashboardColor(percentComplete);
+    runUnitTests();
+
+    } catch (error) {
+        output.innerHTML = `
+            <div class="dashboard-card">
+                <h2>Error</h2>
+                <ul>${error.message}</ul>
+            </div>
+        `;
+        output.style.backgroundColor = "#f8d7da";
+    }
 };
 
 const applyDashboardColor = (percentComplete) => {
@@ -220,8 +259,11 @@ display("Study Plan",getStudyPlan(studyDay));
 */
 
 const resetDashboard = () => {
+  console.log("studentNameInput value:", studentNameInput.value);
   studentNameInput.value = "";
+  console.log("studyDayInput value:", studyDayInput.value);
   studyDayInput.value = "";
+  console.log("completedModulesInput value:", completedModulesInput.value);
   completedModulesInput.value = 0;
   output.innerHTML = "";
   output.style.backgroundColor = "";
@@ -229,3 +271,46 @@ const resetDashboard = () => {
 
 generateButton.addEventListener("click", generateDashboard);
 resetButton.addEventListener("click", resetDashboard);
+
+const runUnitTests = () => {
+    console.assert(
+    getCourseGrade(95) === "A",
+    "Grade A test failed"
+  );
+  console.assert(
+    getCourseGrade(85) === "B",
+    "Grade B test failed"
+  );
+  console.assert(
+    getCourseGrade(75) === "C",
+    "Grade C test failed"
+  );
+  console.assert(
+    getCourseGrade(65) === "D",
+    "Grade D test failed"
+  );
+  console.assert(
+    getCourseGrade(55) === "F",
+    "Grade F test failed"
+  );
+   console.assert(
+    getStudyPlan('Monday', 0) === 'Rest day.',
+    "Study Plan Monday test failed"
+  );
+  console.assert(
+    getStudyPlan('Tuesday', 0) === 'Other Class day.',
+    "Study Plan Tuesday test failed"
+  );
+  console.assert(
+    getCourseProgress(50) === 'Current Progress: Making Progress',
+    "Course Progress test failed"
+  );
+  console.assert(
+    getCourseProgress(0) === 'Current Progress: Finished!',
+    "Course Progress test failed"
+  );
+  console.assert(
+    getCourseProgress(100) === 'Current Progress: Just Getting Started',
+    "Course Progress test failed"
+  );
+};
