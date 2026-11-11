@@ -16,7 +16,58 @@
 
 // ADD YOUR CODE BELOW
 
-const courseModules = ['Module 1','Module 2','Module 3','Module 4','Module 5','Module 6','Module 7','Module 8','Module 9','Module 10',];
+const courseModules = [
+  {
+    moduleName: "Module 1",
+    hoursRequired: 6,
+    topic: "JavaScript fundamentals",
+  },
+  {
+    moduleName: "Module 2",
+    hoursRequired: 6,
+    topic: "Conditionals, arrays",
+  },
+  {
+    moduleName: "Module 3",
+    hoursRequired: 8,
+    topic: "Functions, scope, loops",
+  },
+  {
+    moduleName: "Module 4",
+    hoursRequired: 5,
+    topic: "DOM",
+  },
+  {
+    moduleName: "Module 5",
+    hoursRequired: 5,
+    topic: "Debugging, error handling",
+  },
+  {
+    moduleName: "Module 6",
+    hoursRequired: 6,
+    topic: "APIs",
+  },
+  {
+    moduleName: "Module 7",
+    hoursRequired: 7,
+    topic: "Objects, iterators",
+  },
+  {
+    moduleName: "Module 8",
+    hoursRequired: 6,
+    topic: "Modular JS, code organization, final project planning",
+  },
+  {
+    moduleName: "Module 9",
+    hoursRequired: 7,
+    topic: "Modern tools, final project development",
+  },
+  {
+    moduleName: "Module 10",
+    hoursRequired: 10,
+    topic: "Final project, deployment",
+  },
+];
 // const completedModules = ['Module 1','Module 2','Module 3'];
 const name = 'Chance Faurot';
 const totalModules = 10;
@@ -140,16 +191,16 @@ const displayModules = (modules) => {
   const list = document.createElement("ul");
   for (let i = 0; i < modules.length; i++) {
     const listItem = document.createElement("li");
-    listItem.textContent = modules[i];
+    listItem.textContent = modules[i].moduleName;
     list.appendChild(listItem);
   }
   return list;
 };
 
-const displayRemainingModules = (completedModules) => {
-  const remainingModules = courseModules.slice(completedModules);
-  const remainingListContainer = document.getElementById("remainingModulesList");
-  remainingListContainer.replaceChildren(displayModules(remainingModules));
+const displayRemainingModules = (remainingModules) => {
+  const remainingModulesList = document.getElementById("remainingModulesList");
+  remainingModulesList.innerHTML = "";
+  remainingModulesList.appendChild(displayModules(remainingModules));
 };
 
 const validateInputs = (studentName, completedModules, studyDay) => {
@@ -173,25 +224,33 @@ const validateInputs = (studentName, completedModules, studyDay) => {
 
 const generateDashboard = () => {
   const output = document.getElementById("output");
+
   try {
-        const studentName = studentNameInput.value;
-        console.log("Student Name:", studentName);
-        const completedModules = Number(completedModulesInput.value);
-        console.log("Completed Modules:", completedModules);
-        const studyDay = studyDayInput.value;
-        console.log("Study Day:", studyDay);
-        if (!Number.isInteger(completedModules) || completedModules < 0 || completedModules > courseModules.length) {
-          output.textContent = `Enter a completed-module count from 0 to ${courseModules.length}.`;
-          return;
-        }
+    const studentName = studentNameInput.value;
+    console.log("Student Name:", studentName);
+    const completedModules = Number(completedModulesInput.value);
+    console.log("Completed Modules:", completedModules);
+    const studyDay = studyDayInput.value;
+    console.log("Study Day:", studyDay);
+
+    if (!Number.isInteger(completedModules) || completedModules < 0 || completedModules > courseModules.length) {
+      output.textContent = `Enter a completed-module count from 0 to ${courseModules.length}.`;
+      return;
+    }
 
     validateInputs(studentName, completedModules, studyDay);
 
-    const totalStudyHours = calculateStudyHours(courseModules.length);
-    const percentComplete = calculatePercentComplete(completedModules,courseModules.length);
+    const moduleNames = courseModules.map((module) => module.moduleName);
+    console.log("Modules:", moduleNames);
+
+    const remainingModules = courseModules.filter((module, index) => index >= completedModules);
+    const remainingHours = remainingModules.reduce((total, module) => total + module.hoursRequired, 0);
+
+    const totalStudyHours = courseModules.reduce((total, module) => total + module.hoursRequired, 0);
+    const percentComplete = calculatePercentComplete(completedModules, courseModules.length);
     console.log("Percent Complete:", percentComplete);
     const percentRemaining = 100 - percentComplete;
-    const dailyStudyHours =  6 / 7;
+    const dailyStudyHours = 6 / 7;
     const dailyStudyMinutes = dailyStudyHours * 60;
 
     const grade = getCourseGrade(percentComplete);
@@ -200,21 +259,32 @@ const generateDashboard = () => {
     console.log("Progress Status:", progress);
     const studyPlan = getStudyPlan(studyDay, dailyStudyMinutes);
 
-    displayDashboard(studentName, courseModules.length, completedModules, totalStudyHours, percentComplete, percentRemaining, grade, progress, studyDay, studyPlan);
+    displayDashboard(
+      studentName,
+      courseModules.length,
+      completedModules,
+      totalStudyHours,
+      remainingHours,
+      percentComplete,
+      percentRemaining,
+      grade,
+      progress,
+      studyDay,
+      studyPlan
+    );
 
-    displayRemainingModules(completedModules);
+    displayRemainingModules(remainingModules);
     applyDashboardColor(percentComplete);
     runUnitTests();
-
-    } catch (error) {
-        output.innerHTML = `
-            <div class="dashboard-card">
-                <h2>Error</h2>
-                <ul>${error.message}</ul>
-            </div>
-        `;
-        output.style.backgroundColor = "#f8d7da";
-    }
+  } catch (error) {
+    output.innerHTML = `
+      <div class="dashboard-card">
+        <h2>Error</h2>
+        <ul>${error.message}</ul>
+      </div>
+    `;
+    output.style.backgroundColor = "#f8d7da";
+  }
 };
 
 const applyDashboardColor = (percentComplete) => {
@@ -227,7 +297,7 @@ const applyDashboardColor = (percentComplete) => {
   }
 };
 
-const displayDashboard = (studentName, courseModulesLength, completedModules, totalStudyHours, percentComplete, percentRemaining, grade, progress, studyDay, studyPlan) => {
+const displayDashboard = (studentName, courseModulesLength, completedModules, totalStudyHours, remainingHours, percentComplete, percentRemaining, grade, progress, studyDay, studyPlan) => {
   output.innerHTML = `
         <div class="dashboard-card">
 
@@ -241,6 +311,8 @@ const displayDashboard = (studentName, courseModulesLength, completedModules, to
 
             <p><strong>Total Study Hours:</strong> ${totalStudyHours}</p>
 
+            <p><strong>Remaining Study Hours:</strong> ${remainingHours}</p>
+
             <p><strong>Percent Complete:</strong>${percentComplete.toFixed(0)}%</p>
 
             <p><strong>Percent Remaining:</strong>${percentRemaining.toFixed(0)}%</p>
@@ -253,7 +325,8 @@ const displayDashboard = (studentName, courseModulesLength, completedModules, to
 
             <p><strong>Today's Plan:</strong>${studyPlan}</p>
 
-            <p><strong>Remaining Modules</strong><div id="remainingModulesList"></div></p>
+            <p><strong>Remaining Modules:</strong></p>
+            <div id="remainingModulesList"></div>
 
         </div>`;
   output.querySelector("#dashboardStudentName").textContent = studentName;
