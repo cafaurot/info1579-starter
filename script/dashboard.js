@@ -1,4 +1,9 @@
-export const resetDashboard = (studentNameInput,completedModulesInput,studyDayInput,output) => {
+export const resetDashboard = (
+  studentNameInput,
+  completedModulesInput,
+  studyDayInput,
+  output,
+) => {
   console.log("studentNameInput value:", studentNameInput.value);
   studentNameInput.value = "";
   console.log("studyDayInput value:", studyDayInput.value);
@@ -30,12 +35,25 @@ export const applyDashboardColor = (percentComplete, output) => {
     output.style.backgroundColor = "#d4edda";
   } else if (percentComplete >= 25) {
     output.style.backgroundColor = "#fff3cd";
-  } else { 
+  } else {
     output.style.backgroundColor = "#f8d7da";
   }
 };
 
-export const displayDashboard = (studentName, courseModulesLength, completedModules, totalStudyHours, remainingHours, percentComplete, percentRemaining, grade, progress, studyDay, studyPlan, output) => {
+export const displayDashboard = (
+  studentName,
+  courseModulesLength,
+  completedModules,
+  totalStudyHours,
+  remainingHours,
+  percentComplete,
+  percentRemaining,
+  grade,
+  progress,
+  studyDay,
+  studyPlan,
+  output,
+) => {
   output.innerHTML = `
         <div class="dashboard-card">
 

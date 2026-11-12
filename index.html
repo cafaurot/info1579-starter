@@ -15,50 +15,47 @@
     </div>
 
     <div class="innerbody">
+      <h1>Welcome to JavaScript!</h1>
 
-        <h1>Welcome to JavaScript!</h1>
+      <h4>Joke of the Day</h4>
+      <div id="jokeContainer"></div>
 
-        <h4>Joke of the Day</h4>
-        <div id="jokeContainer"></div>
+      <h4>Quote of the Day</h4>
+      <div id="quoteContainer"></div>
+      <!-- <div class="module-output" id="output"></div> -->
 
-        <h4>Quote of the Day</h4>
-        <div id="quoteContainer"></div>
-        <!-- <div class="module-output" id="output"></div> -->
+      <label> Student Name: <input id="studentName" /> </label>
 
-        <label> Student Name: <input id="studentName"> </label>
+      <label>
+        Completed Modules:
+        <input id="completedModules" type="number" min="0" max="10" />
+      </label>
 
-        <label> Completed Modules: <input id="completedModules" type="number" min="0" max="10"> </label>
+      <label>
+        Study Day:
 
-        <label>
+        <select id="studyDay">
+          <option>Monday</option>
 
-            Study Day:
+          <option>Tuesday</option>
 
-            <select id="studyDay">
+          <option>Wednesday</option>
 
-                <option>Monday</option>
+          <option>Thursday</option>
 
-                <option>Tuesday</option>
+          <option>Friday</option>
 
-                <option>Wednesday</option>
+          <option>Saturday</option>
 
-                <option>Thursday</option>
+          <option>Sunday</option>
+        </select>
+      </label>
 
-                <option>Friday</option>
+      <button id="generateButton">Generate</button>
 
-                <option>Saturday</option>
+      <button id="resetButton">Reset</button>
 
-                <option>Sunday</option>
-
-            </select>
-
-        </label>
-
-        <button id="generateButton"> Generate </button>
-
-        <button id="resetButton"> Reset </button>
-
-        <div id="output"></div>
-
+      <div id="output"></div>
     </div>
 
     <footer>

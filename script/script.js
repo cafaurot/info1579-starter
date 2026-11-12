@@ -24,10 +24,7 @@ import {
   getStudyPlan,
 } from "./calculations.js";
 
-import {
-  validateInputs,
-  runUnitTests,
-} from "./validators.js";
+import { validateInputs, runUnitTests } from "./validators.js";
 
 import {
   resetDashboard,
@@ -36,10 +33,7 @@ import {
   displayDashboard,
 } from "./dashboard.js";
 
-import {
-  displayJoke,
-  displayQuote,
-} from "./api.js";
+import { displayJoke, displayQuote } from "./api.js";
 
 const studentNameInput = document.getElementById("studentName");
 const completedModulesInput = document.getElementById("completedModules");
@@ -50,7 +44,6 @@ const output = document.getElementById("output");
 
 displayJoke();
 displayQuote();
-
 
 const generateDashboard = () => {
   const output = document.getElementById("output");
@@ -63,7 +56,11 @@ const generateDashboard = () => {
     const studyDay = studyDayInput.value;
     console.log("Study Day:", studyDay);
 
-    if (!Number.isInteger(completedModules) || completedModules < 0 || completedModules > courseModules.length) {
+    if (
+      !Number.isInteger(completedModules) ||
+      completedModules < 0 ||
+      completedModules > courseModules.length
+    ) {
       output.textContent = `Enter a completed-module count from 0 to ${courseModules.length}.`;
       return;
     }
@@ -73,11 +70,22 @@ const generateDashboard = () => {
     const moduleNames = courseModules.map((module) => module.moduleName);
     console.log("Modules:", moduleNames);
 
-    const remainingModules = courseModules.filter((module, index) => index >= completedModules);
-    const remainingHours = remainingModules.reduce((total, module) => total + module.hoursRequired, 0);
+    const remainingModules = courseModules.filter(
+      (module, index) => index >= completedModules,
+    );
+    const remainingHours = remainingModules.reduce(
+      (total, module) => total + module.hoursRequired,
+      0,
+    );
 
-    const totalStudyHours = courseModules.reduce((total, module) => total + module.hoursRequired, 0);
-    const percentComplete = calculatePercentComplete(completedModules, courseModules.length);
+    const totalStudyHours = courseModules.reduce(
+      (total, module) => total + module.hoursRequired,
+      0,
+    );
+    const percentComplete = calculatePercentComplete(
+      completedModules,
+      courseModules.length,
+    );
     console.log("Percent Complete:", percentComplete);
     const percentRemaining = 100 - percentComplete;
     const dailyStudyHours = 6 / 7;
@@ -101,7 +109,7 @@ const generateDashboard = () => {
       progress,
       studyDay,
       studyPlan,
-      output
+      output,
     );
 
     displayRemainingModules(remainingModules);
@@ -119,4 +127,11 @@ const generateDashboard = () => {
 };
 
 generateButton.addEventListener("click", generateDashboard);
-resetButton.addEventListener("click", () =>resetDashboard(studentNameInput,completedModulesInput,studyDayInput,output));
+resetButton.addEventListener("click", () =>
+  resetDashboard(
+    studentNameInput,
+    completedModulesInput,
+    studyDayInput,
+    output,
+  ),
+);
