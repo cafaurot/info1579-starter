@@ -1,0 +1,154 @@
+:root {
+  --background: #f4f7fb;
+  --foreground: #222;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures the body is at least the height of the viewport */
+  margin: 0; /* Optional: remove default body margin */
+}
+
+.innerbody {
+  flex: 1;
+  padding: 14px 16px;
+}
+
+/* NAV */
+
+.topnav {
+  overflow: hidden;
+  background-color: #0b77be;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: #000;
+}
+
+.topnav a.active {
+  background-color: #ddd;
+  color: #000;
+}
+
+/* DASHBOARD FORM CSS */
+form,
+#dashboardForm {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+button {
+  margin-top: 20px;
+  padding: 12px 20px;
+  background-color: #0b77be;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+button:hover {
+  background-color: #0a5b92;
+}
+
+#output {
+  margin-top: 25px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+#output h2 {
+  margin-top: 0;
+  color: #0b77be;
+}
+
+#output ul {
+  padding-left: 20px;
+}
+
+#output li {
+  margin-bottom: 5px;
+}
+
+.dashboard-item {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.dashboard-card {
+  background-color: #eef5ff;
+  border-left: 5px solid #0b77be;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+/* FOOTER */
+.footer {
+  background: #0b77be;
+  padding: 30px 0px;
+  font-family: "Play", sans-serif;
+  text-align: center;
+}
+
+.footer .row {
+  width: 100%;
+  margin: 1% 0%;
+  padding: 0.6% 0%;
+  color: #f2f2f2;
+  font-size: 0.8em;
+}
+
+.footer .row a {
+  text-decoration: none;
+  color: #f2f2f2;
+  transition: 0.5s;
+}
+
+.footer .row a:hover {
+  color: #f2f2f2;
+}
+
+@media (max-width: 720px) {
+  .footer {
+    text-align: left;
+    padding: 5%;
+  }
+}

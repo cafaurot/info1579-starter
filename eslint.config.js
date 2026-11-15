@@ -23,6 +23,19 @@ export default defineConfig([
     },
   },
 
+  {
+    files: ["finalproject/js/**/*.js"],
+
+    languageOptions: {
+      globals: {
+        console: "readonly",
+        document: "readonly",
+        fetch: "readonly",
+        URL: "readonly",
+      },
+    },
+  },
+
   // Prettier config using eslint-config-prettier
 
   // Do not move, this must be last to override properly
